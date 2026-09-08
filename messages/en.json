@@ -1,0 +1,37 @@
+{
+  "menu": {
+    "all": "All",
+    "items": "items",
+    "back": "Categories",
+    "empty": "No items found in this category.",
+    "outOfStock": "Sold out",
+    "priceSoon": "Price coming soon",
+    "searchPlaceholder": "Search products...",
+    "searchNoResults": "No products match your search.",
+    "searchResults": "results",
+    "addToCart": "Add to cart"
+  },
+  "footer": {
+    "openingHours": "Opening Hours",
+    "address": "Address"
+  },
+  "welcome": {
+    "aboutTitle": "About Us",
+    "getDirections": "Get Directions",
+    "continueTitle": "Continue to Menu",
+    "continueSubtitle": "Ready to explore our menu?",
+    "formTitle": "Access Your Account",
+    "formSubtitle": "Order from your table and earn a star every time — 10 stars gets you a free coffee or dessert!",
+    "loginTab": "Log In",
+    "registerTab": "Sign Up",
+    "namePlaceholder": "Full Name",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
+    "passwordHintPlaceholder": "Password (at least 6 characters)",
+    "loginCta": "Log In",
+    "loginPending": "Logging in…",
+    "registerCta": "Sign Up",
+    "registerPending": "Creating account…",
+    "registerSuccess": "Account created! Confirm your email, then log in."
+  }
+}
