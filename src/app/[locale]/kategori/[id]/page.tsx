@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import CategoryScreen from "@/components/CategoryScreen";
-import KahvelerScreen from "@/components/KahvelerScreen";
 import MaintenanceScreen from "@/components/MaintenanceScreen";
 import { getCategories, getCategoryById, getProductsByCategory, getSiteSettings } from "@/lib/menu-data";
 
@@ -26,18 +25,6 @@ export default async function CategoryPage({
 
   if (!category) {
     notFound();
-  }
-
-  if (category.id === "kahveler") {
-    return (
-      <KahvelerScreen
-        category={category}
-        categories={categories}
-        products={categoryProducts}
-        logoUrl={settings.logoUrl}
-        menuMode={settings.menuMode}
-      />
-    );
   }
 
   return (

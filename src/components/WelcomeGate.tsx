@@ -34,6 +34,18 @@ export default function WelcomeGate({
   // dolduğunda) bu ekranı hiç görmez; "Menüye Devam Et" ile de elle kapatılır.
   const dismissed = manualDismiss || Boolean(customer);
 
+  // Karşılama ekranı açıkken arka planı kilitle; menüye geçildiğinde her zaman
+  // sayfanın en üstünden başlat (tarayıcının scroll geri yüklemesi yüzünden
+  // menü eski kaydırma konumundan açılıyordu).
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    window.scrollTo(0, 0);
+    document.body.style.overflow = dismissed ? "" : "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [dismissed]);
+
   return (
     <>
       {children}

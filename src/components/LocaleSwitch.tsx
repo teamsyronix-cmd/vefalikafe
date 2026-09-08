@@ -9,8 +9,8 @@ export default function LocaleSwitch() {
   const pathname = usePathname();
 
   return (
-    <div className="flex h-[38px] items-center gap-3 rounded-full border-[1.5px] border-line bg-surface px-3 font-heading text-[12.5px] font-extrabold tracking-wide">
-      <svg viewBox="0 0 24 24" className="h-[15px] w-[15px] shrink-0" stroke="currentColor" strokeWidth="2" fill="none">
+    <div className="flex h-9 shrink-0 items-center gap-2 rounded-full border-[1.5px] border-line bg-surface px-2.5 font-heading text-[12.5px] font-extrabold tracking-wide sm:h-[38px] sm:gap-3 sm:px-3">
+      <svg viewBox="0 0 24 24" className="hidden h-[15px] w-[15px] shrink-0 sm:block" stroke="currentColor" strokeWidth="2" fill="none">
         <circle cx="12" cy="12" r="9" />
         <path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18" />
       </svg>

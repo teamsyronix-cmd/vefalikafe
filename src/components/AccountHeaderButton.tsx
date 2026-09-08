@@ -18,7 +18,7 @@ export default function AccountHeaderButton() {
         onClick={() => setOpen(true)}
         aria-label="Hesabım"
         title="Hesabım"
-        className="relative grid h-[38px] w-[38px] place-items-center rounded-[12px] bg-chip text-ink"
+        className="relative grid h-9 w-9 shrink-0 place-items-center rounded-[11px] bg-chip text-ink transition-colors hover:bg-line sm:h-[38px] sm:w-[38px]"
       >
         <svg viewBox="0 0 24 24" className="h-[17px] w-[17px]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M20 21a8 8 0 0 0-16 0" />

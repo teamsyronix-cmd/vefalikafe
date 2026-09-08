@@ -8,8 +8,17 @@ import CategorySquareCard from "./CategorySquareCard";
 import PhotoPlaceholder from "./PhotoPlaceholder";
 import type { Category, Product } from "@/data/menu";
 
-// Bu kategoriler ana listenin altında, yan yana kare kartlar olarak gösterilir.
+// Üstte 2'li kare kart olarak gösterilenler.
 const SQUARE_CATEGORY_IDS = ["tatli", "kahveler"];
+// Onların altında 3'lü kare blok olarak gösterilen içecek kategorileri (sıralı).
+const SQUARE3_CATEGORY_IDS = [
+  "turk-kahveleri",
+  "soguk-kahveler",
+  "sicak-cikolatalar",
+  "caylar",
+  "soguk-icecekler",
+  "karnak-special",
+];
 
 function normalize(text: string) {
   return text.toLocaleLowerCase("tr").replace(/ı/g, "i").replace(/i̇/g, "i");
@@ -35,10 +44,17 @@ export default function SearchBox({
   const [query, setQuery] = useState("");
   const trimmed = query.trim();
 
-  const longCategories = categories.filter((c) => !SQUARE_CATEGORY_IDS.includes(c.id));
-  const squareCategories = SQUARE_CATEGORY_IDS.map((id) =>
-    categories.find((c) => c.id === id),
-  ).filter((c): c is Category => Boolean(c));
+  const pickInOrder = (ids: string[]) =>
+    ids
+      .map((id) => categories.find((c) => c.id === id))
+      .filter((c): c is Category => Boolean(c));
+
+  const squareCategories = pickInOrder(SQUARE_CATEGORY_IDS);
+  const square3Categories = pickInOrder(SQUARE3_CATEGORY_IDS);
+  const longCategories = categories.filter(
+    (c) =>
+      !SQUARE_CATEGORY_IDS.includes(c.id) && !SQUARE3_CATEGORY_IDS.includes(c.id),
+  );
 
   const results = useMemo(() => {
     if (!trimmed) return [];
@@ -153,12 +169,26 @@ export default function SearchBox({
             </div>
           )}
 
+          {square3Categories.length > 0 && (
+            <div className="grid grid-cols-3 gap-2.5">
+              {square3Categories.map((category, i) => (
+                <CategorySquareCard
+                  key={category.id}
+                  category={category}
+                  count={products.filter((p) => p.categoryId === category.id).length}
+                  index={squareCategories.length + i}
+                  compact
+                />
+              ))}
+            </div>
+          )}
+
           {longCategories.map((category, i) => (
             <CategoryBanner
               key={category.id}
               category={category}
               count={products.filter((p) => p.categoryId === category.id).length}
-              index={squareCategories.length + i}
+              index={squareCategories.length + square3Categories.length + i}
             />
           ))}
         </div>

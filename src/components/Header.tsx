@@ -1,16 +1,19 @@
 import LocaleSwitch from "./LocaleSwitch";
 import AccountHeaderButton from "./AccountHeaderButton";
 
+const ICON_BTN =
+  "grid h-9 w-9 shrink-0 place-items-center rounded-[11px] bg-chip text-ink transition-colors hover:bg-line sm:h-[38px] sm:w-[38px]";
+
 export default function Header({ logoUrl }: { logoUrl?: string }) {
   return (
-    <header className="sticky top-0 z-40 flex items-center justify-between bg-white px-5 py-4">
-      <div className="flex items-center gap-2">
+    <header className="sticky top-0 z-40 flex items-center justify-between gap-2 bg-white px-3 py-3 sm:px-5 sm:py-4">
+      <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
         <a
           href="https://instagram.com/vefalikafe"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Instagram"
-          className="grid h-[38px] w-[38px] place-items-center rounded-[12px] bg-chip"
+          className={ICON_BTN}
         >
           <svg viewBox="0 0 24 24" className="h-[17px] w-[17px]" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
             <rect x="3" y="3" width="18" height="18" rx="5" />
@@ -23,7 +26,7 @@ export default function Header({ logoUrl }: { logoUrl?: string }) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="TikTok"
-          className="grid h-[38px] w-[38px] place-items-center rounded-[12px] bg-chip"
+          className={ICON_BTN}
         >
           <svg viewBox="0 0 24 24" className="h-[16px] w-[16px]" fill="currentColor">
             <path d="M16.5 3c.3 2.1 1.8 3.8 3.9 4.2v2.9c-1.4 0-2.7-.4-3.9-1.2v6.6a5.6 5.6 0 1 1-5.6-5.6c.3 0 .6 0 .9.1v2.9a2.7 2.7 0 1 0 1.9 2.6V3h2.8z" />
@@ -34,7 +37,7 @@ export default function Header({ logoUrl }: { logoUrl?: string }) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Google Haritalar'da aç"
-          className="grid h-[38px] w-[38px] place-items-center rounded-[12px] bg-chip"
+          className={ICON_BTN}
         >
           <svg viewBox="0 0 24 24" className="h-[17px] w-[17px]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 21.5c3.9-4 6-7.1 6-10a6 6 0 1 0-12 0c0 2.9 2.1 6 6 10Z" />
@@ -45,14 +48,18 @@ export default function Header({ logoUrl }: { logoUrl?: string }) {
 
       {logoUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={logoUrl} alt="Vefalı" className="h-9 w-auto object-contain" />
+        <img
+          src={logoUrl}
+          alt="Vefalı"
+          className="h-8 w-auto max-w-[120px] shrink object-contain sm:h-9 sm:max-w-none"
+        />
       ) : (
         <p className="font-heading text-lg font-extrabold tracking-tight text-ink">
           Vefalı
         </p>
       )}
 
-      <div className="flex items-center gap-2">
+      <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
         <AccountHeaderButton />
         <LocaleSwitch />
       </div>

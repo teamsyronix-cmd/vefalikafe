@@ -11,10 +11,12 @@ export default function CategorySquareCard({
   category,
   count,
   index,
+  compact = false,
 }: {
   category: Category;
   count: number;
   index: number;
+  compact?: boolean;
 }) {
   const locale = useLocale() as "tr" | "en";
   const t = useTranslations("menu");
@@ -42,20 +44,26 @@ export default function CategorySquareCard({
         </>
       ) : (
         <div className="absolute inset-0 grid place-items-center bg-surface">
-          <PhotoPlaceholder className="h-14 w-14" />
+          <PhotoPlaceholder className={compact ? "h-10 w-10" : "h-14 w-14"} />
         </div>
       )}
 
       <div
-        className={`absolute inset-x-3 bottom-3 z-[1] flex flex-col gap-0.5 ${
-          hasImage ? "text-white" : "text-ink"
-        }`}
+        className={`absolute z-[1] flex flex-col gap-0.5 ${
+          compact ? "inset-x-2.5 bottom-2.5" : "inset-x-3 bottom-3"
+        } ${hasImage ? "text-white" : "text-ink"}`}
       >
-        <h4 className="font-heading text-[16px] font-extrabold leading-tight tracking-tight">
+        <h4
+          className={`font-heading font-extrabold leading-tight tracking-tight ${
+            compact ? "text-[12.5px]" : "text-[16px]"
+          }`}
+        >
           {category.name[locale]}
         </h4>
         <span
-          className={`text-[11px] font-semibold ${hasImage ? "text-white/85" : "text-muted"}`}
+          className={`font-semibold ${compact ? "text-[10px]" : "text-[11px]"} ${
+            hasImage ? "text-white/85" : "text-muted"
+          }`}
         >
           {count} {t("items")}
         </span>
