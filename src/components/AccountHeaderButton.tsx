@@ -1,0 +1,42 @@
+"use client";
+
+import { useState } from "react";
+import { useCustomer } from "./CustomerProvider";
+import AccountModal from "./AccountModal";
+import AuthModal from "./AuthModal";
+
+// Header'daki "Hesabım" ikonu — giriş yapmışsa hesap/yıldız modalını,
+// yapmamışsa giriş/kayıt modalını açar.
+export default function AccountHeaderButton() {
+  const customer = useCustomer();
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        aria-label="Hesabım"
+        title="Hesabım"
+        className="relative grid h-[38px] w-[38px] place-items-center rounded-[12px] bg-chip text-ink"
+      >
+        <svg viewBox="0 0 24 24" className="h-[17px] w-[17px]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M20 21a8 8 0 0 0-16 0" />
+          <circle cx="12" cy="8" r="4.5" />
+        </svg>
+        {customer && customer.stars > 0 && (
+          <span className="absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-accent px-1 text-[9px] font-extrabold text-white">
+            {customer.stars}
+          </span>
+        )}
+      </button>
+
+      {open &&
+        (customer ? (
+          <AccountModal onClose={() => setOpen(false)} />
+        ) : (
+          <AuthModal onClose={() => setOpen(false)} />
+        ))}
+    </>
+  );
+}

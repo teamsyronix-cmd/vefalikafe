@@ -1,0 +1,280 @@
+@import "tailwindcss";
+
+:root {
+  /* Referans sitenin bu işletme için gerçekten uyguladığı tema (fildişi/krem
+     zemin + koyu kahve ink) + bizim bordo marka rengimiz vurgu olarak. */
+  --bg: #fffdf6;
+  --surface: #f9f6f0;
+  --line: #e8e6da;
+  --ink: #241a12;
+  --muted: #a6a096;
+  --chip: #f2ede1;
+  --accent: #7a1330;
+  --accent-deep: #591024;
+  --white: #ffffff;
+  --field: #ffffff;
+  /* Her zaman koyu kalan dekoratif zemin (hero, vurgu buton) — temadan bağımsız */
+  --panel-solid: #241a12;
+
+  --radius-card: 24px;
+  --shadow-card: 0 16px 34px -20px rgba(35, 26, 18, 0.28);
+  --shadow-panel: 0 28px 56px -20px rgba(35, 26, 18, 0.45);
+}
+
+/* Admin paneli koyu tema — yalnızca #admin-shell içinde geçerli, genel siteyi etkilemez */
+[data-admin-theme="dark"] {
+  --bg: #0a0a0b;
+  --surface: #17171a;
+  --field: #232227;
+  --line: #3d0c11;
+  --chip: #3d0c11;
+  --ink: #ede0d4;
+  --muted: #b6a99c;
+  --accent: #9a031e;
+  --accent-deep: #7a0217;
+}
+
+/* Açık temada arka plandaki bordo/kırmızı ışık lekeleri (degradeler) gizlenir,
+   kafe fotoğrafının bulanıklığı ise kalır. */
+[data-admin-theme="light"] .admin-glow-blobs {
+  opacity: 0;
+}
+
+/* Panel header'ındaki site logosu koyu temada beyaz gösterilir (tek renk
+   yazı-logo koyu zeminde okunmuyordu). Açık temada olduğu gibi kalır. */
+[data-admin-theme="dark"] .admin-logo {
+  filter: brightness(0) invert(1);
+}
+
+/* Panel header menüsü — glowlu, estetik hover.
+   ÖNEMLİ: tema-duyarlı ham değişkenler (--ink/--chip/--accent) kullanılıyor;
+   --color-* değişkenleri @theme inline ile açık-tema değerine sabitlendiği için
+   koyu temada yanlış renk veriyordu (metin okunmuyordu). */
+.admin-nav-link {
+  transition:
+    transform 0.18s ease,
+    background-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+/* Pasif (seçili olmayan) sekme: hover'da katı chip zemin + tema metni */
+.admin-nav-link:not([aria-current="page"]):hover {
+  transform: translateY(-1px);
+  color: var(--ink);
+  background-color: var(--chip);
+  box-shadow: 0 8px 22px -8px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+/* Aktif sekme (bordo zemin + beyaz metin): sadece glow'u güçlendir */
+.admin-nav-link[aria-current="page"] {
+  box-shadow: 0 6px 18px -8px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+.admin-nav-link[aria-current="page"]:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px -6px var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-nav-link:hover {
+    transform: none;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-chip: var(--chip);
+  --color-accent: var(--accent);
+  --color-accent-deep: var(--accent-deep);
+  --color-white: var(--white);
+  --color-field: var(--field);
+  --color-panel-solid: var(--panel-solid);
+
+  --font-heading: var(--font-outfit);
+  --font-body: var(--font-jakarta);
+
+  --radius-card: var(--radius-card);
+  --shadow-card: var(--shadow-card);
+  --shadow-panel: var(--shadow-panel);
+}
+
+html {
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Tailwind'in sıfırlama stili butonlardan imleci kaldırıyor — geri getiriyoruz. */
+button:not(:disabled) {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+
+/* Admin panelindeki tüm butonlara tutarlı hover/aktif efekti — tek tek sınıf
+   yazmak yerine kabuk içindeki bütün <button>'lara uygulanıyor. Sürükleme
+   tutamacı <span> ve aç/kapa anahtarı ([role=switch]) hariç.
+   NOT: filter/brightness KULLANILMIYOR — metnin de rengini bozuyordu. Sadece
+   hafif yükselme + dış ışıma (gölge metni etkilemez, okunurluk korunur). */
+#admin-shell button:not(:disabled) {
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+#admin-shell button:not(:disabled):not([role="switch"]):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px -6px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+#admin-shell button:not(:disabled):not([role="switch"]):active {
+  transform: translateY(0) scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #admin-shell button:not(:disabled):hover,
+  #admin-shell button:not(:disabled):active {
+    transform: none;
+  }
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body), sans-serif;
+  overflow-x: clip;
+}
+
+/* Sayfa arka planındaki kafe temalı ince desen (kahve, limonata, sufle, okey taşı) */
+.doodle-bg {
+  background-color: var(--color-bg);
+  background-image: url("/patterns/cafe-doodle.svg");
+  background-repeat: repeat;
+  background-size: 220px 220px;
+}
+
+/* Kart giriş animasyonu — referans sitedeki yumuşak beliriş hissi */
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-card-in {
+  animation: cardIn 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-card-in {
+    animation: none;
+  }
+}
+
+/* Üst bilgi şeridi (Ticker) kayma animasyonu */
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Admin paneli koyu arka planında yavaşça süzülen ışık lekeleri */
+@keyframes driftA {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(60px, 40px) scale(1.15); }
+}
+@keyframes driftB {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-50px, 30px) scale(1.1); }
+}
+@keyframes driftC {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, -50px) scale(1.2); }
+}
+
+.animate-drift-a {
+  animation: driftA 16s ease-in-out infinite;
+}
+.animate-drift-b {
+  animation: driftB 20s ease-in-out infinite;
+}
+.animate-drift-c {
+  animation: driftC 24s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-drift-a,
+  .animate-drift-b,
+  .animate-drift-c {
+    animation: none;
+  }
+}
+
+/* Yılbaşı modu — kar tanesi düşüşü */
+@keyframes snowfall {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(var(--drift, 30px), 105vh);
+  }
+}
+
+.animate-snowfall {
+  animation: snowfall linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-snowfall {
+    animation: none;
+    display: none;
+  }
+}
+
+/* Giriş / Kayıt formu — sekme değişiminde içeriğin yumuşak belirişi */
+@keyframes formSwap {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-form-swap {
+  animation: formSwap 0.36s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-form-swap {
+    animation: none;
+  }
+}
+
+/* Kahve fincanı — yıldız ilerlemesindeki buhar animasyonu */
+@keyframes steam {
+  0% {
+    transform: translateY(0) scaleY(1);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-14px) scaleY(1.4);
+    opacity: 0;
+  }
+}
+
+.animate-steam {
+  animation: steam 1.8s ease-in-out infinite;
+}
