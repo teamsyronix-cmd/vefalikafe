@@ -1,0 +1,37 @@
+{
+  "menu": {
+    "all": "Tümü",
+    "items": "ürün",
+    "back": "Kategoriler",
+    "empty": "Bu kategoride ürün bulunamadı.",
+    "outOfStock": "Tükendi",
+    "priceSoon": "Fiyat yakında",
+    "searchPlaceholder": "Ürün ara...",
+    "searchNoResults": "Aramanla eşleşen ürün bulunamadı.",
+    "searchResults": "sonuç",
+    "addToCart": "Sepete ekle"
+  },
+  "footer": {
+    "openingHours": "Açılış Saatleri",
+    "address": "Adres"
+  },
+  "welcome": {
+    "aboutTitle": "Hakkımızda",
+    "getDirections": "Yol Tarifi Al",
+    "continueTitle": "Menüye Devam Et",
+    "continueSubtitle": "Lezzetlerimizi keşfetmeye hazır mısın?",
+    "formTitle": "Hesabına Gir",
+    "formSubtitle": "Masandan sipariş ver, her siparişte yıldız kazan — 10 yıldızda kahve veya tatlı hediye!",
+    "loginTab": "Giriş Yap",
+    "registerTab": "Kayıt Ol",
+    "namePlaceholder": "Ad Soyad",
+    "emailPlaceholder": "E-posta",
+    "passwordPlaceholder": "Şifre",
+    "passwordHintPlaceholder": "Şifre (en az 6 karakter)",
+    "loginCta": "Giriş Yap",
+    "loginPending": "Giriş yapılıyor…",
+    "registerCta": "Kayıt Ol",
+    "registerPending": "Kayıt oluşturuluyor…",
+    "registerSuccess": "Kayıt başarılı! E-postanı onaylayıp giriş yapabilirsin."
+  }
+}
