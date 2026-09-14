@@ -36,6 +36,10 @@ export type SiteSettings = {
   maintenance: boolean;
   adminEmail?: string;
   adminAvatarUrl?: string;
+  socialInstagramUrl?: string;
+  socialTiktokUrl?: string;
+  socialMapsUrl?: string;
+  starsEnabled: boolean;
 };
 
 function rowToCategory(row: CategoryRow): Category {
@@ -112,6 +116,7 @@ const EMPTY_SETTINGS: SiteSettings = {
   announcementTitle: "",
   announcementMessage: "",
   maintenance: false,
+  starsEnabled: true,
 };
 
 export async function getSiteSettings(): Promise<SiteSettings> {
@@ -134,6 +139,10 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     maintenance: data?.maintenance ?? false,
     adminEmail: data?.admin_email ?? undefined,
     adminAvatarUrl: data?.admin_avatar_url ?? undefined,
+    socialInstagramUrl: data?.social_instagram_url ?? undefined,
+    socialTiktokUrl: data?.social_tiktok_url ?? undefined,
+    socialMapsUrl: data?.social_maps_url ?? undefined,
+    starsEnabled: data?.stars_enabled ?? true,
   };
 }
 

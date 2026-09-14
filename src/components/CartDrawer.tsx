@@ -4,6 +4,7 @@ import { useActionState, useEffect, useState } from "react";
 import { useLocale } from "next-intl";
 import { useCart } from "./CartProvider";
 import { useCustomer } from "./CustomerProvider";
+import { useStarsEnabled } from "./StarsSystemProvider";
 import AuthModal from "./AuthModal";
 import { placeOrderAction, type PlaceOrderState } from "@/app/actions/orders";
 
@@ -22,6 +23,7 @@ export default function CartDrawer() {
   const { items, removeItem, setQty, clear, totalCount, totalPrice, isOpen, open, close } =
     useCart();
   const customer = useCustomer();
+  const starsEnabled = useStarsEnabled();
   const [authOpen, setAuthOpen] = useState(false);
   const [tableNumber, setTableNumber] = useState("");
   const [redeemReward, setRedeemReward] = useState(false);
@@ -36,7 +38,7 @@ export default function CartDrawer() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.success]);
 
-  const canRedeem = !!customer && customer.stars >= 10;
+  const canRedeem = starsEnabled && !!customer && customer.stars >= 10;
 
   if (totalCount === 0 && !isOpen) return null;
 

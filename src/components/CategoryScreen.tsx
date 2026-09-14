@@ -14,12 +14,18 @@ export default function CategoryScreen({
   products,
   logoUrl,
   menuMode,
+  instagramUrl,
+  tiktokUrl,
+  mapsUrl,
 }: {
   category: Category;
   categories: Category[];
   products: Product[];
   logoUrl?: string;
   menuMode?: string | null;
+  instagramUrl?: string;
+  tiktokUrl?: string;
+  mapsUrl?: string;
 }) {
   const locale = useLocale() as "tr" | "en";
   const t = useTranslations("menu");
@@ -28,7 +34,7 @@ export default function CategoryScreen({
     <div className="doodle-bg flex min-h-screen flex-col">
       {menuMode === "snow" && <SnowEffect />}
       <div className="mx-auto w-full max-w-lg md:max-w-2xl lg:max-w-4xl">
-        <Header logoUrl={logoUrl} />
+        <Header logoUrl={logoUrl} instagramUrl={instagramUrl} tiktokUrl={tiktokUrl} mapsUrl={mapsUrl} />
       </div>
 
       <div className="mx-auto w-full max-w-lg md:max-w-2xl lg:max-w-4xl">

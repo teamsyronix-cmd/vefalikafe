@@ -34,6 +34,9 @@ export default async function CategoryPage({
       products={categoryProducts}
       logoUrl={settings.logoUrl}
       menuMode={settings.menuMode}
+      instagramUrl={settings.socialInstagramUrl}
+      tiktokUrl={settings.socialTiktokUrl}
+      mapsUrl={settings.socialMapsUrl}
     />
   );
 }

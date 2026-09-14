@@ -51,7 +51,12 @@ export default async function HomePage() {
     <div className="doodle-bg flex min-h-screen flex-col">
       {settings.menuMode === "snow" && <SnowEffect />}
       <div className="mx-auto w-full max-w-lg md:max-w-2xl lg:max-w-4xl">
-        <Header logoUrl={settings.logoUrl} />
+        <Header
+          logoUrl={settings.logoUrl}
+          instagramUrl={settings.socialInstagramUrl}
+          tiktokUrl={settings.socialTiktokUrl}
+          mapsUrl={settings.socialMapsUrl}
+        />
       </div>
 
       <div className="mx-auto w-full max-w-lg md:max-w-2xl lg:max-w-4xl">

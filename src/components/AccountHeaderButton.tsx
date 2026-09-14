@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useCustomer } from "./CustomerProvider";
+import { useStarsEnabled } from "./StarsSystemProvider";
 import AccountModal from "./AccountModal";
 import AuthModal from "./AuthModal";
 
@@ -9,6 +10,7 @@ import AuthModal from "./AuthModal";
 // yapmamışsa giriş/kayıt modalını açar.
 export default function AccountHeaderButton() {
   const customer = useCustomer();
+  const starsEnabled = useStarsEnabled();
   const [open, setOpen] = useState(false);
 
   return (
@@ -24,7 +26,7 @@ export default function AccountHeaderButton() {
           <path d="M20 21a8 8 0 0 0-16 0" />
           <circle cx="12" cy="8" r="4.5" />
         </svg>
-        {customer && customer.stars > 0 && (
+        {starsEnabled && customer && customer.stars > 0 && (
           <span className="absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-accent px-1 text-[9px] font-extrabold text-white">
             {customer.stars}
           </span>

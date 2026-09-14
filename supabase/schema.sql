@@ -166,6 +166,11 @@ create index if not exists site_visits_visited_at_idx on site_visits(visited_at)
 alter table site_settings add column if not exists admin_email text;
 alter table site_settings add column if not exists admin_avatar_url text;
 
+-- Header'daki sosyal medya ikonlarının linkleri (Instagram / TikTok / Google Haritalar)
+alter table site_settings add column if not exists social_instagram_url text;
+alter table site_settings add column if not exists social_tiktok_url text;
+alter table site_settings add column if not exists social_maps_url text;
+
 -- ============================================================
 -- MÜŞTERİ SİPARİŞ SİSTEMİ (giriş yapan müşteriler masadan sipariş verir)
 -- ============================================================
@@ -277,3 +282,8 @@ alter table orders add column if not exists delivered boolean not null default f
 -- şu anki stars'ları kopyalanır (geçmiş veri yoksa en iyi tahmin budur).
 alter table customer_profiles add column if not exists lifetime_stars integer not null default 0;
 update customer_profiles set lifetime_stars = stars where lifetime_stars = 0;
+
+-- Yıldız (sadakat puanı) sistemini dönem dönem kapatabilmek için: kapalıyken
+-- sitede yıldızlarla ilgili hiçbir şey (rozet, kahve fincanı, ödül mesajı,
+-- sepette ödül kullan seçeneği) gösterilmez.
+alter table site_settings add column if not exists stars_enabled boolean not null default true;

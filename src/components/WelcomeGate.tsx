@@ -12,6 +12,9 @@ import {
 
 const INITIAL: CustomerAuthState = {};
 
+const WELCOME_DISMISSED_KEY = "vefali-welcome-dismissed";
+const HOME_SCROLL_KEY = "vefali-home-scroll-y";
+
 type Announcement = { title: string; message: string; image?: string };
 
 // Site açıldığında önce bu ekran gösterilir: estetik giriş/kayıt formu + "Menüye
@@ -34,17 +37,74 @@ export default function WelcomeGate({
   // dolduğunda) bu ekranı hiç görmez; "Menüye Devam Et" ile de elle kapatılır.
   const dismissed = manualDismiss || Boolean(customer);
 
-  // Karşılama ekranı açıkken arka planı kilitle; menüye geçildiğinde her zaman
-  // sayfanın en üstünden başlat (tarayıcının scroll geri yüklemesi yüzünden
-  // menü eski kaydırma konumundan açılıyordu).
+  // Misafir kullanıcı bir kez "Menüye Devam Et" dediğinde bunu bu sekme
+  // oturumu boyunca hatırla — aksi halde her sayfa geçişinde (örn. bir
+  // kategoriden "Geri" ile menüye dönüldüğünde) bu bileşen yeniden mount
+  // olduğundan karşılama ekranı tekrar tekrar çıkıyor, kullanıcı yeniden
+  // "Devam Et / Kayıt Ol" ile karşılaşıyordu.
   useEffect(() => {
     if (typeof window === "undefined") return;
-    window.scrollTo(0, 0);
+    try {
+      if (sessionStorage.getItem(WELCOME_DISMISSED_KEY) === "1") {
+        setManualDismiss(true);
+      }
+    } catch {
+      // sessionStorage kapalıysa yoksay
+    }
+  }, []);
+
+  // Karşılama ekranı açıkken arka planı kilitle.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
     document.body.style.overflow = dismissed ? "" : "hidden";
     return () => {
       document.body.style.overflow = "";
     };
   }, [dismissed]);
+
+  // Menü görünür olur olmaz (ekran zaten kapalıysa ya da az önce kapatıldıysa)
+  // en son bir kategoriye girmeden önce kaldığımız kaydırma konumuna dön.
+  // Örn. "Ana Yemekler" en altta iken kategoriye girip "Geri" ile döndüğünde
+  // tekrar en başa değil, o kaydırma konumuna gelinsin.
+  useEffect(() => {
+    if (typeof window === "undefined" || !dismissed) return;
+    try {
+      const saved = sessionStorage.getItem(HOME_SCROLL_KEY);
+      if (saved) {
+        const y = Number(saved);
+        if (Number.isFinite(y)) window.scrollTo(0, y);
+      }
+    } catch {
+      // sessionStorage kapalıysa yoksay
+    }
+  }, [dismissed]);
+
+  // Bu bileşen (menü) unmount olduğunda — yani kullanıcı bir kategoriye ya da
+  // başka bir sayfaya geçtiğinde — o anki kaydırma konumunu kaydet.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    return () => {
+      try {
+        sessionStorage.setItem(HOME_SCROLL_KEY, String(window.scrollY));
+      } catch {
+        // sessionStorage kapalıysa yoksay
+      }
+    };
+  }, []);
+
+  // Kullanıcı ekranı gerçekten (elle ya da girişle) kapattığında çağrılır:
+  // hatırlanır ve menü en üstten başlar. Depolanmış eski bir kapatmayı geri
+  // yükleyen useEffect bunu çağırmaz, böylece geri dönüşte scroll konumu
+  // bozulmaz.
+  function dismiss() {
+    setManualDismiss(true);
+    try {
+      sessionStorage.setItem(WELCOME_DISMISSED_KEY, "1");
+    } catch {
+      // sessionStorage kapalıysa yoksay
+    }
+    window.scrollTo(0, 0);
+  }
 
   return (
     <>
@@ -78,14 +138,14 @@ export default function WelcomeGate({
               <span className="animate-drift-c pointer-events-none absolute -bottom-14 -left-10 h-28 w-28 rounded-full bg-accent/[0.07] blur-2xl" />
 
               <div className="relative z-[1] flex h-full flex-col">
-                <AuthForm onAuthed={() => setManualDismiss(true)} />
+                <AuthForm onAuthed={dismiss} />
               </div>
             </div>
 
             {/* Menüye Devam Et */}
             <button
               type="button"
-              onClick={() => setManualDismiss(true)}
+              onClick={dismiss}
               style={{ animationDelay: "0.16s" }}
               className="group relative flex w-full shrink-0 animate-card-in flex-col items-center justify-center gap-2 overflow-hidden rounded-[24px] bg-panel-solid p-7 text-white shadow-panel transition-transform duration-300 hover:scale-[1.015] sm:h-[440px] sm:max-w-sm sm:gap-3 sm:rounded-[28px] sm:p-8"
             >

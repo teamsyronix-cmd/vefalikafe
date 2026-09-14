@@ -42,6 +42,8 @@ import {
   setMaintenanceAction,
   setReviewLiveAction,
   setSnowModeAction,
+  setStarsEnabledAction,
+  updateSocialLinksAction,
   importSiteBackupAction,
   updateCategoryAction,
   updateReviewAction,
@@ -364,8 +366,85 @@ export default async function AdminDashboard() {
                   tone="danger"
                 />
               </div>
+
+              <div className="flex items-center gap-3 rounded-2xl bg-field p-4">
+                <span className="text-2xl">⭐</span>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[14px] font-bold text-ink">Yıldız Sistemi</p>
+                  <p className="text-[12px] text-muted">
+                    {settings.starsEnabled
+                      ? "Açık — hesap rozeti, kahve fincanı ve ödül mesajları görünüyor."
+                      : "Kapalı — sitede yıldızlarla ilgili hiçbir şey görünmüyor."}
+                  </p>
+                </div>
+                <ToggleSwitch
+                  active={settings.starsEnabled}
+                  toggleAction={setStarsEnabledAction}
+                />
+              </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="relative mb-8 overflow-hidden rounded-[28px] bg-surface p-5 shadow-card sm:p-7">
+        <PanelGlow />
+        <div className="relative z-[1]">
+          <p className="font-heading text-lg font-extrabold text-ink">🔗 Sosyal Medya Linkleri</p>
+          <p className="mb-4 text-[13px] text-muted">
+            Menünün üstündeki Instagram, TikTok ve Google Haritalar ikonlarının açtığı
+            adresler. Boş bırakılan alan varsayılan linki kullanır.
+          </p>
+
+          <form
+            action={updateSocialLinksAction}
+            className="grid grid-cols-1 gap-3 sm:grid-cols-3"
+          >
+            <div>
+              <p className="mb-1 text-[11.5px] font-bold uppercase tracking-[0.08em] text-muted">
+                Instagram
+              </p>
+              <input
+                name="instagram"
+                type="url"
+                defaultValue={settings.socialInstagramUrl ?? ""}
+                placeholder="https://instagram.com/kullaniciadi"
+                className="w-full rounded-xl border border-line bg-field px-3 py-2 text-[14px] text-ink outline-none focus:border-accent"
+              />
+            </div>
+            <div>
+              <p className="mb-1 text-[11.5px] font-bold uppercase tracking-[0.08em] text-muted">
+                TikTok
+              </p>
+              <input
+                name="tiktok"
+                type="url"
+                defaultValue={settings.socialTiktokUrl ?? ""}
+                placeholder="https://www.tiktok.com/@kullaniciadi"
+                className="w-full rounded-xl border border-line bg-field px-3 py-2 text-[14px] text-ink outline-none focus:border-accent"
+              />
+            </div>
+            <div>
+              <p className="mb-1 text-[11.5px] font-bold uppercase tracking-[0.08em] text-muted">
+                Google Haritalar
+              </p>
+              <input
+                name="maps"
+                type="url"
+                defaultValue={settings.socialMapsUrl ?? ""}
+                placeholder="https://maps.app.goo.gl/..."
+                className="w-full rounded-xl border border-line bg-field px-3 py-2 text-[14px] text-ink outline-none focus:border-accent"
+              />
+            </div>
+            <div className="sm:col-span-3">
+              <button
+                type="submit"
+                className="rounded-xl bg-accent px-5 py-2.5 text-[13px] font-bold text-white"
+              >
+                Kaydet
+              </button>
+            </div>
+          </form>
         </div>
       </div>
 

@@ -3,8 +3,10 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { getCurrentCustomer } from "@/lib/supabase-server";
+import { getSiteSettings } from "@/lib/menu-data";
 import { CustomerProvider } from "@/components/CustomerProvider";
 import { CartProvider } from "@/components/CartProvider";
+import { StarsSystemProvider } from "@/components/StarsSystemProvider";
 import CartDrawer from "@/components/CartDrawer";
 
 export function generateStaticParams() {
@@ -25,16 +27,18 @@ export default async function LocaleLayout({
   }
 
   const messages = await getMessages();
-  const customer = await getCurrentCustomer();
+  const [customer, settings] = await Promise.all([getCurrentCustomer(), getSiteSettings()]);
 
   return (
     <NextIntlClientProvider messages={messages}>
-      <CustomerProvider initialCustomer={customer}>
-        <CartProvider>
-          {children}
-          <CartDrawer />
-        </CartProvider>
-      </CustomerProvider>
+      <StarsSystemProvider enabled={settings.starsEnabled}>
+        <CustomerProvider initialCustomer={customer}>
+          <CartProvider>
+            {children}
+            <CartDrawer />
+          </CartProvider>
+        </CustomerProvider>
+      </StarsSystemProvider>
     </NextIntlClientProvider>
   );
 }

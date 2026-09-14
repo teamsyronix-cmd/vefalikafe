@@ -240,6 +240,21 @@ export async function setMaintenanceAction(enabled: boolean) {
   }, enabled ? "Bakım modu açıldı — menü kapatıldı." : "Bakım modu kapatıldı — menü açıldı.");
 }
 
+export async function setStarsEnabledAction(enabled: boolean) {
+  await requireManagerAction();
+  await createAdminSession();
+
+  await withFlash(async () => {
+    const supabase = getSupabaseAdmin();
+    const { error } = await supabase
+      .from("site_settings")
+      .update({ stars_enabled: enabled })
+      .eq("id", "default");
+    if (error) throw error;
+    revalidateAll();
+  }, enabled ? "Yıldız sistemi açıldı." : "Yıldız sistemi kapatıldı — sitede yıldızlarla ilgili hiçbir şey görünmeyecek.");
+}
+
 // ---------- Logo ----------
 
 export async function updateLogoAction(formData: FormData) {
@@ -260,6 +275,32 @@ export async function updateLogoAction(formData: FormData) {
 
     revalidateAll();
   }, "Logo güncellendi.");
+}
+
+// ---------- Sosyal Medya Linkleri ----------
+
+export async function updateSocialLinksAction(formData: FormData) {
+  await requireManagerAction();
+  await createAdminSession();
+
+  await withFlash(async () => {
+    const supabase = getSupabaseAdmin();
+    const instagram = String(formData.get("instagram") ?? "").trim();
+    const tiktok = String(formData.get("tiktok") ?? "").trim();
+    const maps = String(formData.get("maps") ?? "").trim();
+
+    const { error } = await supabase
+      .from("site_settings")
+      .update({
+        social_instagram_url: instagram || null,
+        social_tiktok_url: tiktok || null,
+        social_maps_url: maps || null,
+      })
+      .eq("id", "default");
+    if (error) throw error;
+
+    revalidateAll();
+  }, "Sosyal medya linkleri güncellendi.");
 }
 
 // ---------- Hesap Ayarları ----------

@@ -2,6 +2,7 @@
 
 import { useActionState, useState } from "react";
 import { useCustomer } from "./CustomerProvider";
+import { useStarsEnabled } from "./StarsSystemProvider";
 import CoffeeCup from "./CoffeeCup";
 import {
   logoutCustomerAction,
@@ -14,6 +15,7 @@ const INITIAL: CustomerAuthState = {};
 
 export default function AccountModal({ onClose }: { onClose: () => void }) {
   const customer = useCustomer();
+  const starsEnabled = useStarsEnabled();
   const [profileState, profileAction, profilePending] = useActionState(
     updateCustomerProfileAction,
     INITIAL,
@@ -48,17 +50,22 @@ export default function AccountModal({ onClose }: { onClose: () => void }) {
           Hesabım
         </p>
 
-        <div className="mb-2 flex justify-center rounded-2xl bg-surface py-5">
-          <CoffeeCup stars={customer.stars} />
-        </div>
-        <p className="mb-6 text-center text-[12px] font-semibold text-muted">
-          🏆 Tüm zamanlar kazandığın yıldız: <span className="font-bold text-ink">{customer.lifetimeStars}</span>
-        </p>
-        {customer.stars >= 10 && (
-          <p className="mb-5 text-center text-[12.5px] font-bold text-accent">
-            🎉 {Math.floor(customer.stars / 10)} bedava kahve/tatlı hakkın var — sipariş
-            verirken kullanabilirsin!
-          </p>
+        {starsEnabled && (
+          <>
+            <div className="mb-2 flex justify-center rounded-2xl bg-surface py-5">
+              <CoffeeCup stars={customer.stars} />
+            </div>
+            <p className="mb-6 text-center text-[12px] font-semibold text-muted">
+              🏆 Tüm zamanlar kazandığın yıldız:{" "}
+              <span className="font-bold text-ink">{customer.lifetimeStars}</span>
+            </p>
+            {customer.stars >= 10 && (
+              <p className="mb-5 text-center text-[12.5px] font-bold text-accent">
+                🎉 {Math.floor(customer.stars / 10)} bedava kahve/tatlı hakkın var — sipariş
+                verirken kullanabilirsin!
+              </p>
+            )}
+          </>
         )}
 
         <form action={profileAction} className="space-y-3">
